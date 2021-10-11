@@ -1,0 +1,33 @@
+{
+  "name": "webpack-up",
+  "version": "1.0.0",
+  "description": "webpack study practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --config webpack.dev.js --open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^6.4.0",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.4.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {
+    "less": "^4.1.2",
+    "less-loader": "^10.0.1",
+    "raw-loader": "^4.0.2",
+    "webpack-dev-server": "^4.3.1"
+  }
+}

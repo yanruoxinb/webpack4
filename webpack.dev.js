@@ -3,8 +3,8 @@ const path = require('path');
 const webpack = require('webpack');
 module.exports = {
     entry: {
-        app: './src/index.js',
-        search: './src/search.js'
+        app: './src/app/index.js',
+        search: './src/search/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),

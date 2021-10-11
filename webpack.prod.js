@@ -1,11 +1,12 @@
 const path = require('path');
-const MiniCssExtractCss= require('mini-css-extract-plugin')
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: {
-        app: './src/index.js',
-        search: './src/search.js'
+        app: './src/app/index.js',
+        search: './src/search/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -16,7 +17,7 @@ module.exports = {
         rules: [
             { test: /\.js$/, use: 'babel-loader' },
             {
-                test: /.css$/, use: [ MiniCssExtractPlugin.loader, 'css-loader']
+                test: /.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader']
             }, {
                 test: /.less$/, use: ['style-loader', 'css-loader', 'less-loader']
             }, {
@@ -31,9 +32,41 @@ module.exports = {
             }]
     },
     plugins: [
-        new MiniCssExtractCss({
-            filename:'[name]_[contenthash:8].css'
+        new MiniCssExtractPlugin({
+            filename: '[name]_[contenthash:8].css',
+            attributes: {
+                id: "target",
+                "data-target": "example",
+            },
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            template: path.join(__dirname, 'src/search/index.html'),
+            filename: 'search.html',
+            chunks: ['search'],
+            minify: {
+                html5: true,
+                collapseWhitespace: true,
+                preserveLineBreaks: false,
+                minifyCSS: true,
+                minifyJS: true,
+                removeComments: false,
+            }
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            template: path.join(__dirname, 'src/app/index.html'),
+            filename: 'app.html',
+            chunks: ['app'],
+            minify: {
+                html5: true,
+                collapseWhitespace: true,
+                preserveLineBreaks: false,
+                minifyCSS: true,
+                minifyJS: true,
+                removeComments: false,
+            }
         })
     ]
-   
+
 }

@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -10,7 +11,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: '[name]_[chunkhash:8].js' // 通过占位符来确保文件名称的唯一
+        filename: '[name]_[chunkhash:8].js', // 通过占位符来确保文件名称的唯一
+        clean:true
     },
     mode: 'production',
     module: {
@@ -66,7 +68,11 @@ module.exports = {
                 minifyJS: true,
                 removeComments: false,
             }
-        })
+        }),
+        /**
+         * webpack4是使用该插件来实现的，webpack5只需要在output的时候添加 clean:true
+         */
+        // new CleanWebpackPlugin()
     ]
 
 }

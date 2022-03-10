@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import logo from '../assets/interview.png';
-import  './index.less';
+import  './index.css';
 class Search extends React.Component{
     render() {
         return <div>

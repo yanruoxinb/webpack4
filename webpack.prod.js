@@ -3,12 +3,45 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { glob } = require('glob');
+
+const setMPA = () => {
+    const entry = {};
+    const htmlWebpackPlugins = [];
+    const entryFiles = glob.sync(path.join(__dirname, './src/pages/*/index.js'))
+    Object.keys(entryFiles)
+        .map(index => {
+            const entryFile = entryFiles[index];
+            const match = entryFile.match(/src\/pages\/(.*)\/index.js/);
+            const pageName = match && match[1];
+            entry[pageName] = entryFile;
+
+            htmlWebpackPlugins.push(
+                new HtmlWebpackPlugin({
+                    inject: true,
+                    template: path.join(__dirname,`./src/pages/${pageName}/index.html` ),
+                    filename: `${pageName}.html`,
+                    chunks: [pageName],
+                    minify: {
+                        html5: true,
+                        collapseWhitespace: true,
+                        preserveLineBreaks: false,
+                        minifyCSS: true,
+                        minifyJS: true,
+                        removeComments: false,
+                    }
+            }))
+        })
+
+    return {
+        entry,
+        htmlWebpackPlugins
+    }
+}
+const { entry, htmlWebpackPlugins } = setMPA();
 
 module.exports = {
-    entry: {
-        app: './src/app/index.js',
-        search: './src/search/index.js'
-    },
+    entry: entry,
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name]_[chunkhash:8].js', // 通过占位符来确保文件名称的唯一
@@ -17,11 +50,16 @@ module.exports = {
     mode: 'production',
     module: {
         rules: [
-            { test: /\.js$/, use: 'babel-loader' },
             {
-                test: /.css$/, use: [ MiniCssExtractPlugin.loader, 'css-loader','postcss-loader']
+                test: /\.js$/, use: ['babel-loader',
+                    {
+                        loader: "./loaders/test-loader.js"
+                    }]
+            },
+            {
+                test: /.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
             }, {
-                test: /.less$/, use: [ MiniCssExtractPlugin.loader , 'css-loader', 'less-loader', {
+                test: /.less$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader', {
                     loader: 'postcss-loader',
                     options: {
                         // plugins: () => [
@@ -34,7 +72,7 @@ module.exports = {
                                 [
                                     "autoprefixer",
                                     {
-                                         browsers:['last 2 version','>1%','ios 7'],
+                                        browsers: ['last 2 version', '>1%', 'ios 7'],
                                         // autoprefixer: { grid: true }
                                     },
                                 ],
@@ -67,38 +105,11 @@ module.exports = {
             //     "data-target": "example",
             // },
         }),
-        new HtmlWebpackPlugin({
-            inject: true,
-            template: path.join(__dirname, 'src/search/index.html'),
-            filename: 'search.html',
-            chunks: ['search'],
-            minify: {
-                html5: true,
-                collapseWhitespace: true,
-                preserveLineBreaks: false,
-                minifyCSS: true,
-                minifyJS: true,
-                removeComments: false,
-            }
-        }),
-        new HtmlWebpackPlugin({
-            inject: true,
-            template: path.join(__dirname, 'src/app/index.html'),
-            filename: 'app.html',
-            chunks: ['app'],
-            minify: {
-                html5: true,
-                collapseWhitespace: true,
-                preserveLineBreaks: false,
-                minifyCSS: true,
-                minifyJS: true,
-                removeComments: false,
-            }
-        }),
+        
         /**
          * webpack4是使用该插件来实现的，webpack5只需要在output的时候添加 clean:true
          */
         // new CleanWebpackPlugin()
-    ]
+    ].concat(htmlWebpackPlugins)
 
 }

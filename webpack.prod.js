@@ -47,7 +47,7 @@ module.exports = {
         filename: '[name]_[chunkhash:8].js', // 通过占位符来确保文件名称的唯一
         clean: true // v5
     },
-    mode: 'production',
+    mode: 'none',
     module: {
         rules: [
             {
@@ -110,6 +110,7 @@ module.exports = {
          * webpack4是使用该插件来实现的，webpack5只需要在output的时候添加 clean:true
          */
         // new CleanWebpackPlugin()
-    ].concat(htmlWebpackPlugins)
+    ].concat(htmlWebpackPlugins),
+    devtool:'inline-source-map'
 
 }

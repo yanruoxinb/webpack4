@@ -120,7 +120,7 @@ output:{
  npm i lib-flexible -S    
 
 ```
-添加loader:
+添加 `loader` :
 
 ```js
     {

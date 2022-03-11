@@ -6,11 +6,13 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import logo from '../../assets/interview.png';
 import './index.less';
+import test from '../../utils/common';
 class Search extends React.Component{
+   
     render() {
-       let a = 1;
+        const  a = test();
         return <div>
-            <image src={logo} className='image-style'/>
+            <img src={logo} className='image-style'/>
             <span className='font-style'> Search Text</span>
             <span>Test</span>
         </div>

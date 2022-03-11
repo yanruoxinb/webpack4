@@ -69,8 +69,10 @@ output:{
 4. `CopyWebpackPlugin`: 将文件或者文件夹拷贝到构建的输出目录 
 5. `HtmlWebpackPlugin`: 创建 `html` 文件去承载输出的 `bundle `
 6. `UglifyjsWebpackPlugin`: 压缩 `JS `
-7. `ZipWebpackPlugin`: 将打包出的资源生成一个zip包
-
+7. `ZipWebpackPlugin`: 将打包出的资源生成一个 `zip` 包
+8. `OptimizeAssets`
+9. `MiniCssExtractPlugin`:会将 `CSS` 提取到单独的文件中，为每个包含 `CSS` 的 `JS` 文件创建一个 `CSS` 文件，并且支持 `CSS` 和 `SourceMaps` 的按需加载。
+10. `CleanWebpackPlugin` : 构建前删除原来的目录
 #### Mode
 1. `production` 默认值
 - 设置 `process.env.NODE_ENV` 的值为 `production`，开启代码压缩
@@ -89,16 +91,46 @@ output:{
 
 #### 热更新
 1. watch:true
-2. HotModuleReplacementPlugin
+2. HotModuleReplacementPlugin 
+> HMR 绝对不能被用在生产环境。
+
 3. webpack-dev-middleware
 
 #### 文件指纹
 
 1. Hash
-> 和整个项目的构建相关，只要项目文件有修改，整个项目的`hash`值就会更改
+> 和整个项目的构建相关，只要项目文件有修改，整个项目的 `hash` 值就会更改
 2. ChunkHash
-> 和 `webpack` 打包的`chunk`相关，不同的`entry`会生成不同的`chunkhash`值
+> 和 `webpack` 打包的`chunk`相关，不同的`entry`会生成不同的 `chunkhash` 值
 3. ContentHash
 > 根据文件内容来定义hash，文件内容不变，则 `contenthash` 不变
+
+###### 指纹设置的符号标识
+1. [ext] : 资源后缀名
+2. [name] : 文件名称
+3. [path] : 文件的相对路径
+4. [folder] : 文件所在的文件夹
+5. [contenthash]: 文件的内容hash,默认是 `md5`生成
+6. [hash]
+7. [emoji] : 一个随机的指代文件内容的 `emoji`
+
+#### 移动端 `px` 转换成 `rem`
+```bash
+ npm i px2rem-loader -D
+ npm i lib-flexible -S    
+
+```
+添加loader:
+
+```js
+    {
+        loader: 'px2rem-loader',
+        options: {
+            remUnit: 75,
+            remPrecesion: 8 //小数点位数
+        }
+    }
+```
+
 
 

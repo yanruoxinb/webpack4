@@ -12,16 +12,16 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name]_[chunkhash:8].js', // 通过占位符来确保文件名称的唯一
-        clean: true
+        clean: true // v5
     },
     mode: 'production',
     module: {
         rules: [
             { test: /\.js$/, use: 'babel-loader' },
             {
-                test: /.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader','postcss-loader']
+                test: /.css$/, use: [ MiniCssExtractPlugin.loader, 'css-loader','postcss-loader']
             }, {
-                test: /.less$/, use: ['style-loader', 'css-loader', 'less-loader', {
+                test: /.less$/, use: [ MiniCssExtractPlugin.loader , 'css-loader', 'less-loader', {
                     loader: 'postcss-loader',
                     options: {
                         // plugins: () => [
@@ -34,12 +34,18 @@ module.exports = {
                                 [
                                     "autoprefixer",
                                     {
-                                        //  browsers:['last 2 version','>1%','ios 7'],
+                                         browsers:['last 2 version','>1%','ios 7'],
                                         // autoprefixer: { grid: true }
                                     },
                                 ],
                             ],
                         },
+                    }
+                }, {
+                    loader: 'px2rem-loader',
+                    options: {
+                        remUnit: 75,
+                        remPrecesion: 8 //小数点位数
                     }
                 }]
             }, {

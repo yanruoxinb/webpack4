@@ -1,4 +1,8 @@
 
 export default test = ()=>{
-    return 1111;
- }
+    return "This is func a";
+}
+ 
+export const noUse = ()=>{
+    return 'This is func b';
+}

@@ -134,6 +134,7 @@ module.exports = {
          */
         // new CleanWebpackPlugin()
     ].concat(htmlWebpackPlugins),
+    
     optimization: {
         splitChunks: {
             chunks: 'async',
@@ -163,6 +164,6 @@ module.exports = {
             },
         },
     },
-    devtool: 'inline-source-map'
+    devtool: 'source-map'
 
 }

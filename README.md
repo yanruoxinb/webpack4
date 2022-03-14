@@ -133,4 +133,8 @@ output:{
 ```
 
 
+#### 动态 `imort`
 
+```bash
+    npm i @babel/plugin-syntax-dynamic-import --save-dev
+```
